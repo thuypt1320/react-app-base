@@ -1,14 +1,14 @@
 import './App.css';
-import Login from 'src/pages/login';
-import { useReducer } from 'react';
-import { authReducer } from 'src/redux/authReducer';
-import { useNavigate } from 'react-router-dom';
+import Login from 'src/pages/login/login';
+import Home from 'src/pages/home/home';
+import { authSelector } from 'src/redux/stores';
+import { useSelector } from 'react-redux';
 
 function App () {
-  const [state, dispatch] = useReducer(authReducer, { status: false });
-  const navigator = useNavigate();
-
-  return <Login onClick={() => navigator('./pages/home', { replace: true })}/>;
+  const authValue = useSelector(authSelector);
+  return authValue
+    ? <Home/>
+    : <Login/>;
 }
 
 export default App;
