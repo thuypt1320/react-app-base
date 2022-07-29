@@ -1,29 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { storageService } from 'src/services';
-import { keyStoragesCredential } from 'src/services/storageService/keyStorages';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { User } from 'src/types';
 
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    user: undefined,
-    token: undefined
+    user: undefined
   },
   reducers: {
-    login: (state) => {
-      const credential = storageService.get(keyStoragesCredential);
-      state.user = credential.user;
-      state.token = credential.token;
-    },
-    logout: state => {
-      state.user = undefined;
-      state.token = undefined;
+    setProfile: (state, action: PayloadAction<User>) => {
+      state.user = action.payload;
     }
   }
 });
 
 export const {
-  login,
-  logout
+  setProfile
 } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;

@@ -1,20 +1,20 @@
-import { AxiosInstance } from 'axios';
 import { ICredential } from 'src/repositories/authRepository/models';
 export class AuthRepository {
-  private axiosWithAuth: AxiosInstance;
-  private axiosWithoutAuth: AxiosInstance;
-
-  constructor (axiosWithAuth: AxiosInstance, axiosWithoutAuth: AxiosInstance) {
-    this.axiosWithAuth = axiosWithAuth;
-    this.axiosWithoutAuth = axiosWithoutAuth;
+  async login (): Promise<ICredential> {
+    return fetch('/login', {
+      method: 'POST'
+    }).then(res => res.json());
   }
 
-  login (): ICredential {
-    return ({
-      user: {
-        name: '-'
-      },
-      token: 'token'
+  async logout () {
+    return fetch('/logout', {
+      method: 'POST'
     });
+  }
+
+  async getProfile () {
+    return fetch('/profile', {
+      method: 'GET'
+    }).then(res => res.json());
   }
 }

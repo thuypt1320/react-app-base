@@ -1,14 +1,21 @@
 import './App.css';
-import Login from 'src/pages/login/login';
-import Home from 'src/pages/home/home';
-import { authSelector } from 'src/redux/stores';
-import { useSelector } from 'react-redux';
+import Home from 'src/pages/home';
+import Login from 'src/pages/login';
+import { useRoutes } from 'react-router';
 
 function App () {
-  const authValue = useSelector(authSelector);
-  return authValue
-    ? <Home/>
-    : <Login/>;
+  const element = useRoutes([
+    {
+      path: '/',
+      element: <Home/>
+    },
+    {
+      path: '/login',
+      element: <Login/>
+    }
+  ]);
+
+  return element;
 }
 
 export default App;

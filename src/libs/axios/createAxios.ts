@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { storageService } from 'src/services';
 import { keyStoragesCredential } from 'src/services/storageService/keyStorages';
-import { stores } from 'src/redux/stores';
-import { logout } from 'src/redux/authReducer';
 import { ICredential } from 'src/repositories/authRepository/models';
 
 interface IConfig {
@@ -15,7 +13,7 @@ const defaultConfig: IConfig = {
 
 export function createAxios (config?: IConfig) {
   const configValue = config || defaultConfig;
-  const baseURL = '';
+  const baseURL = '/';
   const headers = {
     'Content-Type': 'application/json'
   };
@@ -28,13 +26,11 @@ export function createAxios (config?: IConfig) {
   if (!configValue.withAuthToken) {
     client.interceptors.request.use((requestConfig) => {
       const credential = storageService.get(keyStoragesCredential) as ICredential;
-
-      if (!credential.token) {
-        stores.dispatch(logout());
+      if (!credential) {
+        window.location.href = '/login';
       }
-
-      if (credential.token) {
-        requestConfig.headers.Authentication = `Bearer ${credential.token}`;
+      if (credential.access_token) {
+        requestConfig.headers.Authentication = `Bearer ${credential.access_token}`;
       }
     });
   }

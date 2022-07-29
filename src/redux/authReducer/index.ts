@@ -1,1 +1,1 @@
-export * from './authReducer';
+export * from 'src/redux/authReducer/authReducer';
