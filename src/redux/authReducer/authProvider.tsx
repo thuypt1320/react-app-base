@@ -16,7 +16,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     if (!credential) {
       navigator('/login');
     }
-  }, [credential]);
+  }, []);
 
   return <div>
     {children}

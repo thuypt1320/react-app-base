@@ -1,14 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { authApi } from 'src/services/authService';
+import { authApi } from 'src/redux/services/authService';
 import { storageService } from 'src/services';
 import { keyStoragesCredential } from 'src/services/storageService/keyStorages';
 import { ICredential } from 'types/credential';
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState: {
-    user: undefined
-  },
+  initialState: {},
   reducers: {},
   extraReducers: builder => {
     builder.addMatcher(
@@ -16,23 +14,12 @@ const authSlice = createSlice({
       (state, action: PayloadAction<ICredential>) => {
         storageService.set(keyStoragesCredential, action.payload);
       }
-    )
-      .addMatcher(authApi.endpoints.getProfile.matchFulfilled,
-        (state, { payload }) => {
-          state.user = payload.user;
-        }
-      )
-      .addMatcher(authApi.endpoints.logout.matchFulfilled,
-        (state) => {
-          state.user = undefined;
-          storageService.remove(keyStoragesCredential);
-        }
-      );
+    ).addMatcher(authApi.endpoints.logout.matchFulfilled,
+      () => {
+        storageService.remove(keyStoragesCredential);
+      }
+    );
   }
 });
-
-// export const {
-//   // setProfile
-// } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;

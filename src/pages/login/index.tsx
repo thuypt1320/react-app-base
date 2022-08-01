@@ -1,6 +1,6 @@
 import 'src/App.css';
 import { useNavigate } from 'react-router';
-import { useLoginMutation } from 'src/services/authService';
+import { useLoginMutation } from 'src/redux/services/authService';
 
 function Login () {
   const navigator = useNavigate();

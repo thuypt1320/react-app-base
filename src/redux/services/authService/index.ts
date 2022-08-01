@@ -14,8 +14,7 @@ export const authApi = createApi({
       invalidatesTags: ['ICredential']
     }),
     getProfile: build.query({
-      query: () => 'profile',
-      providesTags: ['User']
+      query: () => 'profile'
     }),
     logout: build.mutation({
       query: () => ({
