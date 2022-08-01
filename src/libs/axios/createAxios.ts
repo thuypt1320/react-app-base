@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { storageService } from 'src/services';
 import { keyStoragesCredential } from 'src/services/storageService/keyStorages';
-import { ICredential } from 'src/repositories/authRepository/models';
+import { ICredential } from 'types/credential';
 
 interface IConfig {
   withAuthToken: boolean;

@@ -1,15 +1,17 @@
 import 'src/App.css';
-import { authRepository } from 'src/repositories';
-import { storageService } from 'src/services';
-import { keyStoragesCredential } from 'src/services/storageService/keyStorages';
 import { useNavigate } from 'react-router';
+import { useLoginMutation } from 'src/services/authService';
 
 function Login () {
   const navigator = useNavigate();
+  const [login] = useLoginMutation();
   const handleLogin = async () => {
-    const credential = await authRepository.login();
-    storageService.set(keyStoragesCredential, credential);
-    navigator('/');
+    try {
+      await login({});
+      navigator('/');
+    } catch (e) {
+      /**/
+    }
   };
 
   return (
