@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { authApi } from 'src/redux/services/authService';
+import { authApi } from 'src/redux-toolkit/services/auth_service';
 import { storageService } from 'src/services';
-import { keyStoragesCredential } from 'src/services/storageService/keyStorages';
+import { keyStoragesCredential } from 'src/services/storage_service/key_storages';
 import { ICredential } from 'types/credential';
 
 const authSlice = createSlice({

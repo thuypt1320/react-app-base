@@ -1,15 +1,21 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { authReducer } from 'src/redux/authReducer';
-import { authApi } from 'src/redux/services/authService';
-import { userApi } from 'src/redux/services/userService';
-import { usersReducer } from 'src/redux/usersReducer/usersReducer';
-export const stores = configureStore({
-  reducer: {
-    [authApi.reducerPath]: authApi.reducer,
-    [userApi.reducerPath]: userApi.reducer,
-    auth: authReducer,
-    user: usersReducer
-  }
-});
+import { authReducer } from 'src/redux/auth_reducer';
+import {
+  applyMiddleware,
+  combineReducers,
+  legacy_createStore as createStore
+} from 'redux';
+import {
+  loginMW,
+  logoutMW,
+  getProfileMW
+} from 'src/redux/auth_middleware/auth_middleware';
 
-export const authSelector = state => state.auth.user;
+const middleware = applyMiddleware(logoutMW, getProfileMW, loginMW);
+const reducers = combineReducers({
+  auth: authReducer
+});
+export const stores = createStore(reducers, middleware);
+
+export const authSelector = () => stores.getState().auth;
+
+export const dispatch = stores.dispatch;

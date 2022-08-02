@@ -4,8 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider } from 'src/redux/authReducer/authProvider';
-import { stores } from 'src/redux/stores';
+import { Auth } from 'src/components/organisms/auth/auth';
+import { stores } from 'src/redux-toolkit/stores';
 import { Provider } from 'react-redux';
 import { worker } from './mock/brower';
 
@@ -15,9 +15,9 @@ worker.start().then(() => {
     <React.StrictMode>
       <BrowserRouter>
         <Provider store={stores}>
-          <AuthProvider>
+          <Auth>
             <App/>
-          </AuthProvider>
+          </Auth>
         </Provider>
       </BrowserRouter>
     </React.StrictMode>

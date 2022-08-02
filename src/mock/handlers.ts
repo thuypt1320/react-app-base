@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 import { storageService } from 'src/services';
-import { keyStoragesCredential } from 'src/services/storageService/keyStorages';
+import { keyStoragesCredential } from 'src/services/storage_service/key_storages';
 export const handlers = [
   rest.post('/login', (req, res, ctx) => {
     return res(
@@ -42,7 +42,7 @@ export const handlers = [
 
   rest.get('/users', (req, res, ctx) => {
     return res(
-      ctx.status((200)),
+      ctx.status(200),
       ctx.json([
         {
           name: 'user-name',
@@ -74,6 +74,7 @@ export const handlers = [
     ];
 
     const { id } = req.params;
+
     return res(
       ctx.status(200),
       ctx.json(ls.find(item => item.id === id))

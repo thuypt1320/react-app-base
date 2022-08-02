@@ -1,4 +1,5 @@
-import { useGetUsersQuery } from 'src/redux/services/userService';
+import { useGetUsersQuery } from 'src/redux-toolkit/services/user_service';
+import { stores } from 'src/redux/stores';
 
 export default function Users () {
   const { data: users } = useGetUsersQuery({});
@@ -15,6 +16,11 @@ export default function Users () {
           )
         )}
       </ul>
+
+      ----
+      <p>Id: {stores.getState().auth?.id}</p>
+      <p>Name: {stores.getState().auth?.name}</p>
+      <p>Email: {stores.getState().auth?.email}</p>
     </div>
   );
 }

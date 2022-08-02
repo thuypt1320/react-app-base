@@ -1,7 +1,7 @@
 import { useParams } from 'react-router';
 import {
   useGetUserByIdQuery
-} from 'src/redux/services/userService';
+} from 'src/redux-toolkit/services/user_service';
 
 export default function User () {
   const { id } = useParams();

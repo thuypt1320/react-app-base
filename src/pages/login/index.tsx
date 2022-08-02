@@ -1,17 +1,14 @@
 import 'src/App.css';
 import { useNavigate } from 'react-router';
-import { useLoginMutation } from 'src/redux/services/authService';
+import { dispatch } from 'src/redux/stores';
+import { LOGIN } from 'src/redux/auth_types';
 
 function Login () {
   const navigator = useNavigate();
-  const [login] = useLoginMutation();
-  const handleLogin = async () => {
-    try {
-      await login({});
-      navigator('/');
-    } catch (e) {
-      /**/
-    }
+
+  const handleLogin = () => {
+    dispatch({ type: LOGIN });
+    navigator('/');
   };
 
   return (

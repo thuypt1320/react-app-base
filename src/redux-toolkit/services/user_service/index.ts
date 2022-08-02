@@ -7,15 +7,17 @@ interface UserForm {
   username: string,
   email: string,
 }
+
 export const userApi = createApi({
+  reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
     baseUrl: '/'
   }),
-  tagTypes: ['UsersResponse', 'User'],
+  tagTypes: ['User'],
   endpoints: (build) => ({
     getUsers: build.query({
       query: () => 'users',
-      providesTags: ['UsersResponse']
+      providesTags: ['User']
     }),
     getUserById: build.query({
       query: (id: string) => `users/${id}`,
@@ -29,14 +31,16 @@ export const userApi = createApi({
         url: `users/${id}`,
         method: 'PATCH',
         body
-      })
+      }),
+      invalidatesTags: ['User']
     }),
     createUser: build.mutation({
-      query: (body: UserForm) => ({
+      query: (body) => ({
         url: 'users',
         method: 'POST',
         body
-      })
+      }),
+      invalidatesTags: ['User']
     })
   })
 });
