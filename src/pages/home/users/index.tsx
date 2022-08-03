@@ -1,12 +1,17 @@
-import { useGetUsersQuery } from 'src/redux-toolkit/services/user_service';
-import { stores } from 'src/redux/stores';
+import { authSelector, stores, userSelector } from 'src/redux/stores';
+import { useSelector } from 'react-redux';
+import { GET_LIST } from 'src/redux/types/user_action_types/user_action_types';
 
 export default function Users () {
-  const { data: users } = useGetUsersQuery({});
+  const data = useSelector(userSelector);
+  const authData = useSelector(authSelector);
+
   return (
     <div>
+      {JSON.stringify(stores.getState().user)}
+      <button onClick={() => stores.dispatch({ type: GET_LIST })}>fetch</button>
       <ul>
-        {users?.map(
+        {data?.data?.map(
           (user, index) => (
             <li key={index}>
               <a href={`/users/${user.id}`}>
@@ -18,9 +23,9 @@ export default function Users () {
       </ul>
 
       ----
-      <p>Id: {stores.getState().auth?.id}</p>
-      <p>Name: {stores.getState().auth?.name}</p>
-      <p>Email: {stores.getState().auth?.email}</p>
+      <p>Id: {authData?.data.id}</p>
+      <p>Name: {authData?.data.name}</p>
+      <p>Email: {authData?.data.email}</p>
     </div>
   );
 }

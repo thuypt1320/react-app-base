@@ -1,4 +1,4 @@
-import { GET_PROFILE, LOGIN, LOGOUT } from 'src/redux/auth_types';
+import { GET_PROFILE, LOGIN, LOGOUT } from 'src/redux/types/auth_action_types';
 export const login = (payload) => {
   return ({
     type: LOGIN,

@@ -1,28 +1,35 @@
-import { GET_PROFILE, LOGOUT } from 'src/redux/auth_types';
+import { GET_PROFILE, LOGIN, LOGOUT } from 'src/redux/types/auth_action_types';
 import { User } from 'src/types';
 import { storageService } from 'src/services';
 import { keyStoragesCredential } from 'src/services/storage_service/key_storages';
 
-interface AuthState extends User {
+export interface AuthState {
   loading?: boolean; // loading state
+  data?: User;
 }
 
-interface IAuthAction {
+export interface IAuthAction {
   type: string,
-  payload: User
+  payload?: User
 }
 
 const initialState = {
-  name: '-',
+  data: {},
   loading: true
 };
-const credential = storageService.get(keyStoragesCredential);
-export const authReducer = (state: AuthState = { ...credential?.user || initialState }, action: IAuthAction) => {
+
+export const authReducer = (state: AuthState = initialState, action: IAuthAction) => {
   switch (action.type) {
+    case LOGIN: {
+      return ({
+        ...state,
+        data: action.payload
+      });
+    }
     case GET_PROFILE: {
       return ({
         ...state,
-        ...action.payload
+        data: action.payload
       });
     }
     case LOGOUT: {

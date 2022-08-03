@@ -1,27 +1,32 @@
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
+import { objFD } from 'src/utils/formDataToObj';
 
 interface IUserForm {
   name: string,
   email: string
 }
 export default function UserForm () {
-  const [user, setUser] = useState<IUserForm>({
-    name: 'user-name',
-    email: 'user@ex.com'
-  });
+  const [user, setUser] = useState<IUserForm>();
+
   function handleSubmit (e) {
-    //
     e.preventDefault();
-    const data = new FormData(e.target);
-    data.forEach(
-      item => {
-        console.log(item);
-      }
-    );
+    const formData = new FormData(e.target);
+    let formObj = {};
+
+    formData.forEach((value, key) => {
+      const item = objFD(key, value);
+      formObj = {
+        ...formObj,
+        ...item
+      };
+    });
+
+    setUser(formObj as IUserForm);
   }
+
   return <form onSubmit={handleSubmit} name={'user'}>
-    <input name={'name'} value={user?.name}/>
-    <input name={'email'} value={user?.email}/>
+    <input name={'name'} defaultValue={user?.name}/>
+    <input name={'email'} defaultValue={user?.email}/>
     <button type={'submit'}>sm</button>
   </form>;
 }

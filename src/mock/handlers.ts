@@ -7,7 +7,9 @@ export const handlers = [
       ctx.status(200),
       ctx.json({
         user: {
-          name: 'user-name'
+          name: 'user-name',
+          email: 'user@ex.com',
+          id: 'user-id'
         },
         access_token: 'access_token'
       })

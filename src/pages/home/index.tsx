@@ -1,15 +1,13 @@
 import 'src/App.css';
 import { useNavigate } from 'react-router';
 import { authSelector } from 'src/redux/stores';
-import { GET_PROFILE, LOGOUT } from 'src/redux/auth_types';
+import { LOGOUT } from 'src/redux/types/auth_action_types';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function Home () {
   const navigator = useNavigate();
   const data = useSelector(authSelector);
   const dispatch = useDispatch();
-
-  dispatch({ type: GET_PROFILE });
 
   const handleLogout = () => {
     dispatch({ type: LOGOUT });
@@ -19,7 +17,7 @@ export default function Home () {
   return (
     <div>
       <div style={{ fontSize: '12px' }}>
-        Name: {data?.name}
+        Name: {data?.data.name}
         &nbsp;&nbsp;&nbsp;
         <button onClick={handleLogout}>Logout</button>
         <ul>
@@ -27,9 +25,9 @@ export default function Home () {
           <li><a href={'/users/create'}>Create</a></li>
         </ul>
         ----
-        <p>Id: {data?.id}</p>
-        <p>Name: {data?.name}</p>
-        <p>Email: {data?.email}</p>
+        <p>Id: {data?.data.id}</p>
+        <p>Name: {data?.data.name}</p>
+        <p>Email: {data?.data.email}</p>
       </div>
     </div>
   );
