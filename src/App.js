@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import './App.css';
 import Home from 'src/pages/home';
 import Login from 'src/pages/login';
@@ -5,16 +6,17 @@ import { useRoutes } from 'react-router';
 import Users from 'src/pages/home/users';
 import User from 'src/pages/home/users/detail';
 import UserForm from 'src/pages/home/users/create';
+import { allConnect } from 'src/redux/stores';
 
 function App () {
   const element = useRoutes([
     {
-      path: '/',
-      element: <Home/>
-    },
-    {
       path: '/login',
       element: <Login/>
+    },
+    {
+      path: '/',
+      element: <Home/>
     },
     {
       path: '/users',
@@ -33,4 +35,4 @@ function App () {
   return element;
 }
 
-export default App;
+export default allConnect(App);

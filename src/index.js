@@ -4,10 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import { Auth } from 'src/components/organisms/auth/auth';
 import { stores } from 'src/redux-toolkit/stores';
 import { Provider } from 'react-redux';
 import { worker } from './mock/brower';
+import { Auth } from 'src/components/organisms/auth';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 worker.start().then(() => {
   const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -15,9 +16,12 @@ worker.start().then(() => {
     <React.StrictMode>
       <BrowserRouter>
         <Provider store={stores}>
-          <Auth>
-            <App/>
-          </Auth>
+          <GoogleOAuthProvider
+            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+            <Auth>
+              <App/>
+            </Auth>
+          </GoogleOAuthProvider>
         </Provider>
       </BrowserRouter>
     </React.StrictMode>

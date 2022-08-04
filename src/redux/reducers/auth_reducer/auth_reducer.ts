@@ -1,4 +1,9 @@
-import { GET_PROFILE, LOGIN, LOGOUT } from 'src/redux/types/auth_action_types';
+import {
+  GET_PROFILE,
+  LOGIN,
+  LOGIN_GOOGLE,
+  LOGOUT
+} from 'src/redux/types/auth_action_types';
 import { User } from 'src/types';
 import { storageService } from 'src/services';
 import { keyStoragesCredential } from 'src/services/storage_service/key_storages';
@@ -6,6 +11,7 @@ import { keyStoragesCredential } from 'src/services/storage_service/key_storages
 export interface AuthState {
   loading?: boolean; // loading state
   data?: User;
+  type?: string;
 }
 
 export interface IAuthAction {
@@ -13,9 +19,10 @@ export interface IAuthAction {
   payload?: User
 }
 
+export const credentialSt = storageService.get(keyStoragesCredential);
 const initialState = {
-  data: {},
-  loading: true
+  data: credentialSt?.user,
+  loading: Boolean(!credentialSt) || true
 };
 
 export const authReducer = (state: AuthState = initialState, action: IAuthAction) => {
@@ -23,13 +30,19 @@ export const authReducer = (state: AuthState = initialState, action: IAuthAction
     case LOGIN: {
       return ({
         ...state,
-        data: action.payload
+        ...action.payload
+      });
+    }
+    case LOGIN_GOOGLE: {
+      return ({
+        ...state,
+        ...action.payload
       });
     }
     case GET_PROFILE: {
       return ({
         ...state,
-        data: action.payload
+        ...action.payload
       });
     }
     case LOGOUT: {

@@ -1,31 +1,53 @@
-import { authSelector, stores, userSelector } from 'src/redux/stores';
-import { useSelector } from 'react-redux';
-import { GET_LIST } from 'src/redux/types/user_action_types/user_action_types';
+/* eslint-disable react/prop-types */
+import {
+  allConnect,
+  subscribe,
+  userSelector
+} from 'src/redux/stores';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { updateState } from 'src/utils/updateState';
 
-export default function Users () {
-  const data = useSelector(userSelector);
-  const authData = useSelector(authSelector);
+function Users ({
+  data,
+  getList,
+  getDetail
+}) {
+  const [users, setUsers] = useState(data);
+  const navigator = useNavigate();
+
+  useEffect(() => {
+    getList();
+    subscribe(() => {
+      setUsers(userSelector);
+      updateState(users);
+    });
+  }, [data]);
 
   return (
     <div>
-      {JSON.stringify(stores.getState().user)}
-      <button onClick={() => stores.dispatch({ type: GET_LIST })}>fetch</button>
+      <button onClick={getList}>fetch</button>
       <ul>
-        {data?.data?.map(
+        {users?.data?.map(
           (user, index) => (
             <li key={index}>
-              <a href={`/users/${user.id}`}>
+              <a onClick={() => {
+                getDetail(user.id);
+                subscribe(() => {
+                  setUsers(userSelector);
+                  updateState(users);
+                });
+                navigator(`/users/${user.id}`);
+              }}
+              >
                 {user.name} - {user.email}
               </a>
             </li>
           )
         )}
       </ul>
-
-      ----
-      <p>Id: {authData?.data.id}</p>
-      <p>Name: {authData?.data.name}</p>
-      <p>Email: {authData?.data.email}</p>
     </div>
   );
 }
+
+export default allConnect(Users);

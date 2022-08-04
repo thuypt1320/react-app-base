@@ -1,32 +1,28 @@
-import { useState } from 'react';
-import { objFD } from 'src/utils/formDataToObj';
+/* eslint-disable react/prop-types */
+import { formValue } from 'src/utils/formValue';
+import { userConnect } from 'src/redux/stores';
 
-interface IUserForm {
-  name: string,
-  email: string
-}
-export default function UserForm () {
-  const [user, setUser] = useState<IUserForm>();
-
+function UserForm ({
+  create
+}) {
   function handleSubmit (e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    let formObj = {};
-
-    formData.forEach((value, key) => {
-      const item = objFD(key, value);
-      formObj = {
-        ...formObj,
-        ...item
-      };
-    });
-
-    setUser(formObj as IUserForm);
+    create(formValue(e));
   }
 
-  return <form onSubmit={handleSubmit} name={'user'}>
-    <input name={'name'} defaultValue={user?.name}/>
-    <input name={'email'} defaultValue={user?.email}/>
-    <button type={'submit'}>sm</button>
-  </form>;
+  return <div>
+    <form onSubmit={handleSubmit} name={'user'}>
+      <div>
+        <label>name</label>
+        <input name={'name'}/>
+      </div>
+      <div>
+        <label>email</label>
+        <input name={'email'}/>
+      </div>
+      <button type={'submit'}>sm</button>
+    </form>
+  </div>;
 }
+
+export default userConnect(UserForm);

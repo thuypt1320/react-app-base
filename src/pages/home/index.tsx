@@ -1,34 +1,61 @@
+/* eslint-disable react/prop-types */
 import 'src/App.css';
 import { useNavigate } from 'react-router';
-import { authSelector } from 'src/redux/stores';
-import { LOGOUT } from 'src/redux/types/auth_action_types';
-import { useDispatch, useSelector } from 'react-redux';
+import {
+  authConnect,
+  authSelector,
+  subscribe
+} from 'src/redux/stores';
+import { useEffect, useState } from 'react';
+import { AuthState } from 'src/redux/reducers/auth_reducer';
+import { updateState } from 'src/utils/updateState';
 
-export default function Home () {
+function Home ({
+  data,
+  logout,
+  logoutGoogle,
+  getProfile
+}) {
+  const [profile, setProfile] = useState<AuthState>(data);
   const navigator = useNavigate();
-  const data = useSelector(authSelector);
-  const dispatch = useDispatch();
+
+  useEffect(() => {
+    subscribe(() => {
+      setProfile(authSelector);
+    });
+  }, []);
 
   const handleLogout = () => {
-    dispatch({ type: LOGOUT });
+    profile?.type === 'google' ? logoutGoogle() : logout();
     navigator('/login');
+  };
+
+  const handleProfile = () => {
+    getProfile();
+    subscribe(() => {
+      setProfile(authSelector);
+    });
+    updateState(profile);
   };
 
   return (
     <div>
       <div style={{ fontSize: '12px' }}>
-        Name: {data?.data.name}
+        Name: {profile?.data?.name}
         &nbsp;&nbsp;&nbsp;
         <button onClick={handleLogout}>Logout</button>
+        <button onClick={handleProfile}>profile</button>
+
         <ul>
           <li><a href={'/users'}>Users</a></li>
           <li><a href={'/users/create'}>Create</a></li>
         </ul>
         ----
-        <p>Id: {data?.data.id}</p>
-        <p>Name: {data?.data.name}</p>
-        <p>Email: {data?.data.email}</p>
+        <p>Id: {profile?.data?.id}</p>
+        <p>Name: {profile?.data?.name}</p>
+        <p>Email: {profile?.data?.email}</p>
       </div>
     </div>
   );
 }
+export default authConnect(Home);

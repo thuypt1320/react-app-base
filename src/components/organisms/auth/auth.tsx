@@ -3,9 +3,7 @@ import { storageService } from 'src/services';
 import { keyStoragesCredential } from 'src/services/storage_service/key_storages';
 import { useNavigate } from 'react-router';
 import { ICredential } from 'types/credential';
-import { stores } from 'src/redux/stores';
-import { GET_PROFILE } from 'src/redux/types/auth_action_types';
-import { useDispatch } from 'react-redux';
+import { authSelector } from 'src/redux/stores';
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -14,7 +12,6 @@ interface AuthProviderProps {
 export const Auth: FC<AuthProviderProps> = ({ children }) => {
   const credential = storageService.get(keyStoragesCredential) as ICredential;
   const navigator = useNavigate();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!credential) {
@@ -22,11 +19,10 @@ export const Auth: FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const profile = stores.getState().auth;
+  const profile = authSelector();
 
   useEffect(() => {
     if (!profile && credential) {
-      dispatch({ type: GET_PROFILE });
       navigator('/');
     }
   }, [profile]);

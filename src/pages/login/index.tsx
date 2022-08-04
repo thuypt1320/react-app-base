@@ -1,49 +1,58 @@
+/* eslint-disable react/prop-types */
 import 'src/App.css';
 import { useNavigate } from 'react-router';
-import { LOGIN } from 'src/redux/types/auth_action_types';
-import { connect } from 'react-redux';
-import { stores } from 'src/redux/stores';
+import { authConnect, authSelector, subscribe } from 'src/redux/stores';
 import { useState } from 'react';
+import { updateState } from 'src/utils/updateState';
+import { AuthState } from 'src/redux/reducers/auth_reducer';
+import GoogleLogin, {
+  GoogleLoginResponse
+} from 'react-google-login';
 
 const Login = ({
-  // eslint-disable-next-line react/prop-types
-  login
+  data,
+  login,
+  loginGoogle
 }) => {
-  const [credential, setCredential] = useState(stores.getState().auth);
+  const [credential, setCredential] = useState<AuthState>(data);
 
   const navigator = useNavigate();
 
   const handleLogin = () => {
     login();
-    stores.subscribe(() => {
-      setCredential(stores.getState().auth);
+    subscribe(() => {
+      setCredential(authSelector);
+      updateState(credential);
     });
+    navigator('/');
+  };
 
-    !credential.loading && navigator('/');
+  const handleGoogleLoginSuccess = (value: GoogleLoginResponse) => {
+    loginGoogle(value);
+    subscribe(() => {
+      setCredential(authSelector);
+      updateState(credential);
+    });
+    navigator('/');
+  };
+
+  const handleGoogleLoginFailure = (error) => {
+    console.log(error);
   };
 
   return (
     <div className="App">
       <div className="App-header">
         <button onClick={handleLogin}>Login</button>
+        <GoogleLogin
+          clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+          onSuccess={handleGoogleLoginSuccess}
+          onFailure={handleGoogleLoginFailure}
+          cookiePolicy={'single_host_origin'}
+        />
       </div>
     </div>
   );
 };
 
-const mapDispatch = () => {
-  return {
-    login: () => {
-      stores.dispatch({ type: LOGIN });
-      stores.subscribe(() => stores.getState().auth);
-    }
-  };
-};
-
-const mapState = () => {
-  return {
-    data: stores.getState().auth
-  };
-};
-
-export default connect(mapState, mapDispatch)(Login);
+export default authConnect(Login);
