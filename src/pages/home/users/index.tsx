@@ -1,7 +1,5 @@
-/* eslint-disable react/prop-types */
 import {
-  allConnect,
-  subscribe,
+  subscribe, userConnect, UserConnectProps,
   userSelector
 } from 'src/redux/stores';
 import { useEffect, useState } from 'react';
@@ -12,7 +10,7 @@ function Users ({
   data,
   getList,
   getDetail
-}) {
+}: UserConnectProps) {
   const [users, setUsers] = useState(data);
   const navigator = useNavigate();
 
@@ -50,4 +48,4 @@ function Users ({
   );
 }
 
-export default allConnect(Users);
+export default userConnect(Users);

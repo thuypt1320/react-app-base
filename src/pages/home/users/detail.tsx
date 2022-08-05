@@ -1,5 +1,9 @@
-/* eslint-disable react/prop-types */
-import { subscribe, userConnect, userSelector } from 'src/redux/stores';
+import {
+  subscribe,
+  userConnect,
+  UserConnectProps,
+  userSelector
+} from 'src/redux/stores';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { updateState } from 'src/utils/updateState';
@@ -8,8 +12,8 @@ import { formValue } from 'src/utils/formValue';
 function User ({
   data,
   getDetail
-}) {
-  const [user, setUser] = useState(data);
+}: UserConnectProps) {
+  const [user, setUser] = useState(data.user);
   const { id } = useParams();
   useEffect(() => {
     getDetail(id);

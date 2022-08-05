@@ -1,5 +1,6 @@
 import { userRepository } from 'src/repositories';
 import {
+  CREATE,
   GET_DETAIL,
   GET_LIST
 } from 'src/redux/types/user_action_types/user_action_types';
@@ -10,7 +11,7 @@ export const userMW = store => next => async action => {
     const res = await userRepository.list();
     return next(
       getList({
-        loading: !res.data,
+        loading: Boolean(!res.data),
         data: res.data
       })
     );
@@ -20,10 +21,21 @@ export const userMW = store => next => async action => {
     const res = await userRepository.detail(action?.payload?.id);
     return next(
       getDetail({
-        loading: !res.data,
+        loading: Boolean(!res.data),
         user: res.data
       })
     );
+  }
+
+  if (action.type === CREATE) {
+    const res = await userRepository.list();
+    next(
+      getList({
+        loading: Boolean(!res.data),
+        data: res.data
+      })
+    );
+    return next(action);
   }
 
   return next(action);

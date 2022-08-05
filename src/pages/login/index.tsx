@@ -1,7 +1,12 @@
 /* eslint-disable react/prop-types */
 import 'src/App.css';
 import { useNavigate } from 'react-router';
-import { authConnect, authSelector, subscribe } from 'src/redux/stores';
+import {
+  authConnect,
+  AuthConnectProps,
+  authSelector, MapAuthDispatchToProps, MapAuthStateToProps,
+  subscribe
+} from 'src/redux/stores';
 import { useState } from 'react';
 import { updateState } from 'src/utils/updateState';
 import { AuthState } from 'src/redux/reducers/auth_reducer';
@@ -13,7 +18,7 @@ const Login = ({
   data,
   login,
   loginGoogle
-}) => {
+}: AuthConnectProps) => {
   const [credential, setCredential] = useState<AuthState>(data);
 
   const navigator = useNavigate();

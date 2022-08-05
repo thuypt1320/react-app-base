@@ -1,8 +1,7 @@
-/* eslint-disable react/prop-types */
 import 'src/App.css';
 import { useNavigate } from 'react-router';
 import {
-  authConnect,
+  authConnect, AuthConnectProps,
   authSelector,
   subscribe
 } from 'src/redux/stores';
@@ -15,7 +14,7 @@ function Home ({
   logout,
   logoutGoogle,
   getProfile
-}) {
+}: AuthConnectProps) {
   const [profile, setProfile] = useState<AuthState>(data);
   const navigator = useNavigate();
 

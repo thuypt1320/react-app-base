@@ -4,10 +4,10 @@ import {
   GET_LIST, UPDATE
 } from 'src/redux/types/user_action_types/user_action_types';
 export const getList = (payload) => {
-  return ({
+  return {
     type: GET_LIST,
     payload
-  });
+  };
 };
 
 export const getDetail = (payload) => {
