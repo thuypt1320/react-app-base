@@ -27,16 +27,5 @@ export const userMW = store => next => async action => {
     );
   }
 
-  if (action.type === CREATE) {
-    const res = await userRepository.list();
-    next(
-      getList({
-        loading: Boolean(!res.data),
-        data: res.data
-      })
-    );
-    return next(action);
-  }
-
   return next(action);
 };

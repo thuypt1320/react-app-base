@@ -5,14 +5,23 @@ import {
   UserConnectProps,
   userSelector
 } from 'src/redux/stores';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { updateState } from 'src/utils/updateState';
+import { LogoutButton } from 'src/components/molecules/logout_button';
 
 function UserForm ({
   data,
-  create
+  create,
+  getList
 }: UserConnectProps) {
   const [users, setUsers] = useState(data);
+  useEffect(() => {
+    getList();
+    subscribe(() => {
+      setUsers(userSelector);
+    });
+    updateState(users);
+  }, []);
 
   function handleSubmit (e) {
     e.preventDefault();
@@ -24,6 +33,8 @@ function UserForm ({
   }
 
   return <div>
+    <LogoutButton/>
+
     <form onSubmit={handleSubmit} name={'user'}>
       <div>
         <label>name</label>

@@ -16,12 +16,9 @@ worker.start().then(() => {
     <React.StrictMode>
       <BrowserRouter>
         <Provider store={stores}>
-          <GoogleOAuthProvider
-            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-            <Auth>
-              <App/>
-            </Auth>
-          </GoogleOAuthProvider>
+          <Auth>
+            <App/>
+          </Auth>
         </Provider>
       </BrowserRouter>
     </React.StrictMode>

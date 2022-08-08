@@ -24,6 +24,7 @@ import {
 import { loginGoogle, logoutGoogle } from 'src/redux/actions/auth_actions';
 import { create } from 'src/redux/actions/user_actions';
 import thunk from 'redux-thunk';
+import { useEffect, useState } from 'react';
 
 const middleware = applyMiddleware(userMW, authMW, thunk);
 const reducers = combineReducers({
@@ -34,31 +35,31 @@ export const stores = createStore(reducers, middleware);
 
 export const authSelector = () => stores.getState().auth;
 export const userSelector = () => stores.getState().user;
+export const allSelector = () => stores.getState();
 
-export const mapAuthStateToProps = () => {
-  return {
-    data: stores.getState().auth
-  };
+export const mapAuthStateToProps = {
+  data: stores.getState().auth
 };
 
-export const mapUserStateToProps = () => {
-  return {
-    data: stores.getState().user
-  };
+export const mapUserStateToProps = {
+  data: stores.getState().user
 };
-export const mapStateToProps = () => {
-  return {
-    ...mapAuthStateToProps(),
-    ...mapUserStateToProps()
-  };
+export const mapStateToProps = {
+  data: stores.getState()
 };
-export type MapAuthStateToProps = ReturnType<typeof mapAuthStateToProps>;
-export type MapUserStateToProps = ReturnType<typeof mapUserStateToProps>;
-export type MapStateToProps = ReturnType<typeof mapStateToProps>;
+export type MapAuthStateToProps = typeof mapAuthStateToProps;
+export type MapUserStateToProps = typeof mapUserStateToProps;
+export type MapStateToProps = typeof mapStateToProps;
 
 export const mapAuthDispatchToProps = {
-  login: () => {
-    stores.dispatch({ type: LOGIN });
+  login: (payload?: {
+    username?: string,
+    password?: string
+  }) => {
+    stores.dispatch({
+      type: LOGIN,
+      payload
+    });
   },
   loginGoogle: (payload) => stores.dispatch(loginGoogle(payload)),
   getProfile: () => stores.dispatch({ type: GET_PROFILE }),
@@ -88,9 +89,9 @@ export type MapAuthDispatchToProps = typeof mapAuthDispatchToProps;
 export type MapUserDispatchToProps = typeof mapUserDispatchToProps;
 export type MapDispatchToProps = typeof mapDispatchToProps;
 
-export const authConnect = (component) => connect(mapAuthStateToProps, () => mapAuthDispatchToProps)(component);
-export const userConnect = (component) => connect(mapUserStateToProps, () => mapUserDispatchToProps)(component);
-export const allConnect = (component) => connect(mapStateToProps, () => mapDispatchToProps)(component);
+export const authConnect = (component) => connect(() => mapAuthStateToProps, () => mapAuthDispatchToProps)(component);
+export const userConnect = (component) => connect(() => mapUserStateToProps, () => mapUserDispatchToProps)(component);
+export const allConnect = (component) => connect(() => mapStateToProps, () => mapDispatchToProps)(component);
 export type AuthConnectProps = MapAuthStateToProps & MapAuthDispatchToProps
 export type UserConnectProps = MapUserStateToProps & MapUserDispatchToProps;
 export type AllConnectProps = AuthConnectProps & UserConnectProps;

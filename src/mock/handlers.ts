@@ -3,17 +3,27 @@ import { storageService } from 'src/services';
 import { keyStoragesCredential } from 'src/services/storage_service/key_storages';
 export const handlers = [
   rest.post('/login', (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        user: {
-          name: 'user-name',
-          email: 'user@ex.com',
-          id: 'user-id'
-        },
-        access_token: 'access_token'
-      })
-    );
+    return req.text().then((body) => {
+      const {
+        username,
+        password
+      } = JSON.parse(body);
+      if (username === 'user' && password === '123') {
+        return res(ctx.status(200),
+          ctx.json({
+            user: {
+              name: username,
+              email: 'user@ex.com',
+              id: 'user-id'
+            },
+            access_token: 'access_token'
+          }));
+      }
+      return res(
+        ctx.status(400),
+        ctx.json({ message: 'cant login' })
+      );
+    });
   }),
 
   rest.get('/profile', (req, res, ctx) => {

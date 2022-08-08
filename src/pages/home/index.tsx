@@ -1,48 +1,29 @@
 import 'src/App.css';
-import { useNavigate } from 'react-router';
 import {
-  authConnect, AuthConnectProps,
-  authSelector,
-  subscribe
+  authConnect, AuthConnectProps, authSelector, subscribe
 } from 'src/redux/stores';
-import { useEffect, useState } from 'react';
-import { AuthState } from 'src/redux/reducers/auth_reducer';
+import { LogoutButton } from 'src/components/molecules/logout_button';
+import { useState } from 'react';
 import { updateState } from 'src/utils/updateState';
 
 function Home ({
-  data,
-  logout,
-  logoutGoogle,
   getProfile
 }: AuthConnectProps) {
-  const [profile, setProfile] = useState<AuthState>(data);
-  const navigator = useNavigate();
-
-  useEffect(() => {
-    subscribe(() => {
-      setProfile(authSelector);
-    });
-  }, []);
-
-  const handleLogout = () => {
-    profile?.type === 'google' ? logoutGoogle() : logout();
-    navigator('/login');
-  };
-
+  const [data, setData] = useState(authSelector);
   const handleProfile = () => {
     getProfile();
     subscribe(() => {
-      setProfile(authSelector);
+      setData(authSelector);
+      updateState(data);
     });
-    updateState(profile);
   };
 
   return (
     <div>
       <div style={{ fontSize: '12px' }}>
-        Name: {profile?.data?.name}
+        Name: {data?.data?.name}
         &nbsp;&nbsp;&nbsp;
-        <button onClick={handleLogout}>Logout</button>
+        <LogoutButton/>
         <button onClick={handleProfile}>profile</button>
 
         <ul>
@@ -50,9 +31,9 @@ function Home ({
           <li><a href={'/users/create'}>Create</a></li>
         </ul>
         ----
-        <p>Id: {profile?.data?.id}</p>
-        <p>Name: {profile?.data?.name}</p>
-        <p>Email: {profile?.data?.email}</p>
+        <p>Id: {data?.data?.id}</p>
+        <p>Name: {data?.data?.name}</p>
+        <p>Email: {data?.data?.email}</p>
       </div>
     </div>
   );

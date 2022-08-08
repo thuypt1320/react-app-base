@@ -13,7 +13,7 @@ const defaultConfig: IConfig = {
 
 export function createAxios (config?: IConfig) {
   const configValue = config || defaultConfig;
-  const baseURL = '/';
+  const baseURL = process.env.REACT_APP_API_URL || '/';
   const headers = {
     'Content-Type': 'application/json'
   };

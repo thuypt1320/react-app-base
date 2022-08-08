@@ -5,6 +5,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { updateState } from 'src/utils/updateState';
+import { LogoutButton } from 'src/components/molecules/logout_button';
 
 function Users ({
   data,
@@ -25,6 +26,8 @@ function Users ({
   return (
     <div>
       <button onClick={getList}>fetch</button>
+      <LogoutButton/>
+
       <ul>
         {users?.data?.map(
           (user, index) => (

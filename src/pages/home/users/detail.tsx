@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { updateState } from 'src/utils/updateState';
 import { formValue } from 'src/utils/formValue';
+import { LogoutButton } from 'src/components/molecules/logout_button';
 
 function User ({
   data,
@@ -32,6 +33,7 @@ function User ({
   // *** name property is required to use FormData
   return (
     <div>
+      <LogoutButton/>
       <form onSubmit={handleSubmit} name={'update'}>
         <div>
           <label>Id: </label>

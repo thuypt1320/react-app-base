@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import {
   authConnect,
   AuthConnectProps,
-  authSelector, MapAuthDispatchToProps, MapAuthStateToProps,
+  authSelector,
   subscribe
 } from 'src/redux/stores';
 import { useState } from 'react';
@@ -13,23 +13,23 @@ import { AuthState } from 'src/redux/reducers/auth_reducer';
 import GoogleLogin, {
   GoogleLoginResponse
 } from 'react-google-login';
+import { formValue } from 'src/utils/formValue';
 
 const Login = ({
-  data,
   login,
   loginGoogle
 }: AuthConnectProps) => {
-  const [credential, setCredential] = useState<AuthState>(data);
+  const [credential, setCredential] = useState<AuthState>(authSelector);
 
   const navigator = useNavigate();
-
-  const handleLogin = () => {
-    login();
+  const handleLogin = (e) => {
+    e.preventDefault();
+    login(formValue(e));
     subscribe(() => {
       setCredential(authSelector);
       updateState(credential);
     });
-    navigator('/');
+    credential.data.name && navigator('/');
   };
 
   const handleGoogleLoginSuccess = (value: GoogleLoginResponse) => {
@@ -38,7 +38,6 @@ const Login = ({
       setCredential(authSelector);
       updateState(credential);
     });
-    navigator('/');
   };
 
   const handleGoogleLoginFailure = (error) => {
@@ -48,7 +47,19 @@ const Login = ({
   return (
     <div className="App">
       <div className="App-header">
-        <button onClick={handleLogin}>Login</button>
+        <div style={{ fontSize: '12px' }}>
+          <form onSubmit={handleLogin} name={'user'}>
+            <div>
+              <label>username</label>
+              <input name={'username'} defaultValue={''}/>
+            </div>
+            <div>
+              <label>password</label>
+              <input name={'password'} defaultValue={''}/>
+            </div>
+            <button type={'submit'}>Login</button>
+          </form>
+        </div>
         <GoogleLogin
           clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
           onSuccess={handleGoogleLoginSuccess}

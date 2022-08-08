@@ -25,14 +25,18 @@ export const authMW = store => next => async action => {
   }
 
   if (action.type === LOGIN) {
-    const res = await authRepository.login();
-    storageService.set(keyStoragesCredential, res.data);
-    const credential = storageService.get(keyStoragesCredential);
-    if (credential) {
-      return next(login({
-        loading: Boolean(!res.data),
-        data: res.data.user
-      }));
+    try {
+      const res = await authRepository.login(action.payload);
+      storageService.set(keyStoragesCredential, res.data);
+      const credential = storageService.get(keyStoragesCredential);
+      if (credential) {
+        return next(login({
+          loading: Boolean(!res.data),
+          data: res.data.user
+        }));
+      }
+    } catch (e) {
+      return next(logout());
     }
   }
 
