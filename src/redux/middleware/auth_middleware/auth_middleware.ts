@@ -27,13 +27,15 @@ export const authMW = store => next => async action => {
   if (action.type === LOGIN) {
     try {
       const res = await authRepository.login(action.payload);
-      storageService.set(keyStoragesCredential, res.data);
-      const credential = storageService.get(keyStoragesCredential);
-      if (credential) {
-        return next(login({
-          loading: Boolean(!res.data),
-          data: res.data.user
-        }));
+      if (action.payload.username === res.data.user.name && action.payload.password === '123456') {
+        storageService.set(keyStoragesCredential, res.data);
+        const credential = storageService.get(keyStoragesCredential);
+        if (credential) {
+          return next(login({
+            loading: Boolean(!res.data),
+            data: res.data.user
+          }));
+        }
       }
     } catch (e) {
       return next(logout());

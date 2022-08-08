@@ -18,9 +18,24 @@ export class UserRepository {
 
   async update (_params: {
     id: string,
-    name: string
+    name: string,
+    email: string
   }) {
     return this.axiosWithToken.put(`/users/${_params.id}`,
-      { name: _params.name });
+      {
+        name: _params.name,
+        email: _params.email
+      });
+  }
+
+  async create (_params: {
+    name: string,
+    email: string
+  }) {
+    return this.axiosWithToken.post('/users',
+      {
+        name: _params.name,
+        email: _params.email
+      });
   }
 }

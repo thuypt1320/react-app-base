@@ -2,9 +2,14 @@ import { userRepository } from 'src/repositories';
 import {
   CREATE,
   GET_DETAIL,
-  GET_LIST
+  GET_LIST, UPDATE
 } from 'src/redux/types/user_action_types/user_action_types';
-import { getDetail, getList } from 'src/redux/actions/user_actions';
+import {
+  create,
+  getDetail,
+  getList,
+  update
+} from 'src/redux/actions/user_actions';
 
 export const userMW = store => next => async action => {
   if (action.type === GET_LIST) {
@@ -21,6 +26,26 @@ export const userMW = store => next => async action => {
     const res = await userRepository.detail(action?.payload?.id);
     return next(
       getDetail({
+        loading: Boolean(!res.data),
+        user: res.data
+      })
+    );
+  }
+
+  if (action.type === CREATE) {
+    const res = await userRepository.create(action?.payload);
+    return next(
+      create({
+        loading: Boolean(!res.data),
+        user: res.data
+      })
+    );
+  }
+
+  if (action.type === UPDATE) {
+    const res = await userRepository.update(action?.payload);
+    return next(
+      update({
         loading: Boolean(!res.data),
         user: res.data
       })

@@ -22,7 +22,7 @@ import {
   connect, ConnectedProps
 } from 'react-redux';
 import { loginGoogle, logoutGoogle } from 'src/redux/actions/auth_actions';
-import { create } from 'src/redux/actions/user_actions';
+import { create, update } from 'src/redux/actions/user_actions';
 import thunk from 'redux-thunk';
 import { useEffect, useState } from 'react';
 
@@ -75,7 +75,7 @@ export const mapUserDispatchToProps = {
     type: GET_DETAIL,
     payload: { id }
   }),
-  update: () => stores.dispatch({ type: UPDATE }),
+  update: (formValue) => stores.dispatch(update(formValue)),
   create: (formValue) => stores.dispatch(create(formValue)),
   delete: () => stores.dispatch({ type: DELETE })
 };

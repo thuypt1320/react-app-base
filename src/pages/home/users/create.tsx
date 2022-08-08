@@ -8,6 +8,7 @@ import {
 import { useEffect, useState } from 'react';
 import { updateState } from 'src/utils/updateState';
 import { LogoutButton } from 'src/components/molecules/logout_button';
+import { Table } from 'src/components/atoms/table';
 
 function UserForm ({
   data,
@@ -46,7 +47,7 @@ function UserForm ({
       </div>
       <button type={'submit'}>sm</button>
     </form>
-    {JSON.stringify(users)}
+    <Table data={users.data}/>
   </div>;
 }
 

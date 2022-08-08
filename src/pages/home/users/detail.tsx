@@ -12,7 +12,8 @@ import { LogoutButton } from 'src/components/molecules/logout_button';
 
 function User ({
   data,
-  getDetail
+  getDetail,
+  update
 }: UserConnectProps) {
   const [user, setUser] = useState(data.user);
   const { id } = useParams();
@@ -26,8 +27,11 @@ function User ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formValue(e));
-    setUser(formValue(e));
+    update(formValue(e));
+    subscribe(() => {
+      setUser(formValue(e));
+      updateState(user);
+    });
   };
 
   // *** name property is required to use FormData
