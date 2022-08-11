@@ -10,46 +10,71 @@ import {
   getList,
   update
 } from 'src/redux/actions/user_actions';
+import { DONE, ERROR, PROCESSING } from 'src/redux/types';
 
 export const userMW = store => next => async action => {
   if (action.type === GET_LIST) {
-    const res = await userRepository.list();
-    return next(
-      getList({
-        loading: Boolean(!res.data),
-        data: res.data
-      })
-    );
+    try {
+      const res = await userRepository.list();
+      if (!res.data) next({ type: PROCESSING });
+      if (res.data) next({ type: DONE });
+      return next(
+        getList({
+          loading: Boolean(!res.data),
+          data: res.data
+        })
+      );
+    } catch (e) {
+      next({ type: ERROR });
+    }
   }
 
   if (action.type === GET_DETAIL) {
-    const res = await userRepository.detail(action?.payload?.id);
-    return next(
-      getDetail({
-        loading: Boolean(!res.data),
-        user: res.data
-      })
-    );
+    try {
+      const res = await userRepository.detail(action?.payload?.id);
+      if (!res.data) next({ type: PROCESSING });
+      if (res.data) next({ type: DONE });
+      return next(
+        getDetail({
+          loading: Boolean(!res.data),
+          user: res.data
+        })
+      );
+    } catch (e) {
+      next({ type: ERROR });
+    }
   }
 
   if (action.type === CREATE) {
-    const res = await userRepository.create(action?.payload);
-    return next(
-      create({
-        loading: Boolean(!res.data),
-        user: res.data
-      })
-    );
+    try {
+      const res = await userRepository.create(action?.payload);
+      if (!res.data) next({ type: PROCESSING });
+      if (res.data) next({ type: DONE });
+      return next(
+        create({
+          loading: Boolean(!res.data),
+          user: res.data
+        })
+      );
+    } catch (e) {
+      next({ type: ERROR });
+    }
   }
 
   if (action.type === UPDATE) {
-    const res = await userRepository.update(action?.payload);
-    return next(
-      update({
-        loading: Boolean(!res.data),
-        user: res.data
-      })
-    );
+    try {
+      const res = await userRepository.update(action?.payload);
+      if (!res.data) next({ type: PROCESSING });
+      if (res.data) next({ type: DONE });
+      return next(
+        update({
+          loading: Boolean(!res.data),
+          user: res.data
+        })
+      );
+    } catch (e) {
+      next({ type: ERROR });
+    }
   }
 
   return next(action);

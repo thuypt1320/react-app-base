@@ -8,18 +8,11 @@ export class AuthRepository {
     this.axiosWithoutToken = axiosWithoutToken;
   }
 
-  async login (_params?: {
-    username: string,
-    password: string
-  }) {
-    return this.axiosWithoutToken.post('/login', _params);
+  async login () {
+    return this.axiosWithoutToken.get('/login');
   }
 
   async getProfile () {
     return this.axiosWithToken.get('/profile');
-  }
-
-  async logout () {
-    return this.axiosWithToken.post('/logout');
   }
 }

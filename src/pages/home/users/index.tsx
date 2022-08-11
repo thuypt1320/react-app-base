@@ -1,43 +1,29 @@
-import {
-  subscribe, userConnect, UserConnectProps,
-  userSelector
-} from 'src/redux/stores';
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { updateState } from 'src/utils/updateState';
 import { LogoutButton } from 'src/components/molecules/logout_button';
+import { useFetchUserList } from 'src/hooks/use_fetch_user_list';
+import { useFetchUserDetail } from 'src/hooks/use_fetch_user_detail';
 
-function Users ({
-  data,
-  getList,
-  getDetail
-}: UserConnectProps) {
-  const [users, setUsers] = useState(data);
+function Users () {
+  const {
+    data,
+    getList,
+    loading
+  } = useFetchUserList();
+  const { getDetail } = useFetchUserDetail();
   const navigator = useNavigate();
 
-  useEffect(() => {
-    getList();
-    subscribe(() => {
-      setUsers(userSelector);
-      updateState(users);
-    });
-  }, [data]);
-
+  if (loading) return <div>loading </div>;
   return (
     <div>
       <button onClick={getList}>fetch</button>
       <LogoutButton/>
 
       <ul>
-        {users?.data?.map(
+        {data?.map(
           (user, index) => (
             <li key={index}>
               <a onClick={() => {
                 getDetail(user.id);
-                subscribe(() => {
-                  setUsers(userSelector);
-                  updateState(users);
-                });
                 navigator(`/users/${user.id}`);
               }}
               >
@@ -51,4 +37,4 @@ function Users ({
   );
 }
 
-export default userConnect(Users);
+export default Users;

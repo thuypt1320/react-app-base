@@ -6,7 +6,6 @@ import { useRoutes } from 'react-router';
 import Users from 'src/pages/home/users';
 import User from 'src/pages/home/users/detail';
 import UserForm from 'src/pages/home/users/create';
-import { allConnect } from 'src/redux/stores';
 
 function App () {
   const element = useRoutes([
@@ -32,7 +31,8 @@ function App () {
     }
   ]);
 
+  // return <Home/>;
   return element;
 }
 
-export default allConnect(App);
+export default App;

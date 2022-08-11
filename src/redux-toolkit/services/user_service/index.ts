@@ -1,13 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { User } from 'src/types';
 
-export type UserResponse = User[]
-
-interface UserForm {
-  username: string,
-  email: string,
-}
-
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({

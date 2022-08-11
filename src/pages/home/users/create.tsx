@@ -1,54 +1,38 @@
-import { formValue } from 'src/utils/formValue';
-import {
-  subscribe,
-  userConnect,
-  UserConnectProps,
-  userSelector
-} from 'src/redux/stores';
-import { useEffect, useState } from 'react';
-import { updateState } from 'src/utils/updateState';
 import { LogoutButton } from 'src/components/molecules/logout_button';
 import { Table } from 'src/components/atoms/table';
+import { useForm } from 'react-hook-form';
+import { useMutateUser } from 'src/hooks/use_mutate_user';
+import { useFetchUserList } from 'src/hooks/use_fetch_user_list';
 
-function UserForm ({
-  data,
-  create,
-  getList
-}: UserConnectProps) {
-  const [users, setUsers] = useState(data);
-  useEffect(() => {
-    getList();
-    subscribe(() => {
-      setUsers(userSelector);
-    });
-    updateState(users);
-  }, []);
+function UserForm () {
+  const {
+    register,
+    handleSubmit
+  } = useForm();
 
-  function handleSubmit (e) {
-    e.preventDefault();
-    create(formValue(e));
-    subscribe(() => {
-      setUsers(userSelector);
-    });
-    updateState(users);
+  const { create } = useMutateUser();
+  const { data } = useFetchUserList();
+
+  function handleUpdate (formValue) {
+    create(formValue);
   }
 
   return <div>
     <LogoutButton/>
 
-    <form onSubmit={handleSubmit} name={'user'}>
+    <form onSubmit={handleSubmit(handleUpdate)} name={'user'}>
       <div>
         <label>name</label>
-        <input name={'name'} defaultValue={''}/>
+        <input {...register('name')} />
       </div>
       <div>
         <label>email</label>
-        <input name={'email'} defaultValue={''}/>
+        <input {...register('email')} />
       </div>
       <button type={'submit'}>sm</button>
     </form>
-    <Table data={users.data}/>
+    <Table data={data}/>
   </div>;
 }
 
-export default userConnect(UserForm);
+export default UserForm;

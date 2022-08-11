@@ -1,65 +1,62 @@
-import {
-  subscribe,
-  userConnect,
-  UserConnectProps,
-  userSelector
-} from 'src/redux/stores';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { updateState } from 'src/utils/updateState';
-import { formValue } from 'src/utils/formValue';
 import { LogoutButton } from 'src/components/molecules/logout_button';
+import { useForm } from 'react-hook-form';
+import { useFetchUserDetail } from 'src/hooks/use_fetch_user_detail';
+import { useMutateUser } from 'src/hooks/use_mutate_user';
+import { useParams } from 'react-router';
+import { useEffect } from 'react';
 
-function User ({
-  data,
-  getDetail,
-  update
-}: UserConnectProps) {
-  const [user, setUser] = useState(data.user);
+function User () {
   const { id } = useParams();
+  const {
+    data,
+    loading
+  } = useFetchUserDetail(id);
+  const { update } = useMutateUser();
+
+  const {
+    register,
+    handleSubmit,
+    setValue
+  } = useForm();
+
   useEffect(() => {
-    getDetail(id);
-    subscribe(() => {
-      setUser(userSelector().user);
-      updateState(user);
-    });
+    setValue('name', data?.name);
+    setValue('email', data?.email);
   }, [data]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    update(formValue(e));
-    subscribe(() => {
-      setUser(formValue(e));
-      updateState(user);
+  const handleUpdate = (formValue) => {
+    update({
+      ...formValue,
+      id
     });
   };
 
-  // *** name property is required to use FormData
+  if (loading) return <div>loading </div>;
+
   return (
     <div>
       <LogoutButton/>
-      <form onSubmit={handleSubmit} name={'update'}>
+      <form onSubmit={handleSubmit(handleUpdate)} name={'update'}>
         <div>
-          <label>Id: </label>
-          <input name="id" defaultValue={user?.id}/>
+          <label>Id: {data?.id}</label>
         </div>
         <div>
           <label>Name: </label>
-          <input name="name" defaultValue={user?.name}/>
+          <input {...register('name')} />
         </div>
         <div>
           <label>Email: </label>
-          <input name="email" defaultValue={user?.email}/>
+          <input {...register('email')} />
         </div>
         <button type={'submit'}>ud</button>
       </form>
 
       ----
-      <p>Id: {user?.id}</p>
-      <p>Name: {user?.name}</p>
-      <p>Email: {user?.email}</p>
+      <p>Id: {data?.id}</p>
+      <p>Name: {data?.name}</p>
+      <p>Email: {data?.email}</p>
     </div>
   );
 }
 
-export default userConnect(User);
+export default User;

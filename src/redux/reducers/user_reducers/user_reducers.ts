@@ -2,7 +2,7 @@ import { User } from 'src/types';
 import {
   CREATE,
   GET_DETAIL,
-  GET_LIST
+  GET_LIST, UPDATE
 } from 'src/redux/types/user_action_types/user_action_types';
 export interface IUserState {
   data?: User[],
@@ -30,10 +30,16 @@ export const userReducer = (state: IUserState = {}, action: IUserAction) => {
       };
     }
     case CREATE: {
-      const data = state?.data ? [...state.data, { ...action.payload }] : [action.payload];
+      const data = state?.data ? [...state.data, { ...action.payload.user }] : [action.payload.user];
       return {
         ...state,
-        data
+        ...{ data }
+      };
+    }
+    case UPDATE: {
+      return {
+        ...state,
+        ...action.payload
       };
     }
     default:

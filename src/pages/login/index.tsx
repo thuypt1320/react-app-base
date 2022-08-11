@@ -1,61 +1,51 @@
 /* eslint-disable react/prop-types */
 import 'src/App.css';
 import { useNavigate } from 'react-router';
-import {
-  authConnect,
-  AuthConnectProps,
-  authSelector,
-  subscribe
-} from 'src/redux/stores';
-import { useState } from 'react';
-import { updateState } from 'src/utils/updateState';
-import { AuthState } from 'src/redux/reducers/auth_reducer';
-import GoogleLogin, {
-  GoogleLoginResponse
-} from 'react-google-login';
-import { formValue } from 'src/utils/formValue';
+import GoogleLogin from 'react-google-login';
+import { useForm } from 'react-hook-form';
+import { useAuth } from 'src/hooks/use_auth';
+import { useEffect } from 'react';
 
-const Login = ({
-  login,
-  loginGoogle
-}: AuthConnectProps) => {
-  const [credential, setCredential] = useState<AuthState>(authSelector);
-
+const Login = () => {
+  const {
+    register,
+    handleSubmit
+  } = useForm();
+  const {
+    data,
+    login,
+    loading
+  } = useAuth();
   const navigator = useNavigate();
-  const handleLogin = (e) => {
-    e.preventDefault();
-    login(formValue(e));
-    subscribe(() => {
-      setCredential(authSelector);
-      updateState(credential);
-    });
-    credential.data.name && navigator('/');
+  useEffect(() => {
+    data?.access_token && navigator('/');
+  }, [data]);
+
+  const handleLogin = (formValue) => {
+    login(formValue);
   };
 
-  const handleGoogleLoginSuccess = (value: GoogleLoginResponse) => {
-    loginGoogle(value);
-    subscribe(() => {
-      setCredential(authSelector);
-      updateState(credential);
-    });
+  const handleGoogleLoginSuccess = () => {
+    login({ type: 'google' });
   };
 
   const handleGoogleLoginFailure = (error) => {
     console.log(error);
   };
 
+  if (loading) return <div>Loading</div>;
   return (
     <div className="App">
       <div className="App-header">
         <div style={{ fontSize: '12px' }}>
-          <form onSubmit={handleLogin} name={'user'}>
+          <form onSubmit={handleSubmit(handleLogin)} name={'user'}>
             <div>
               <label>username</label>
-              <input name={'username'} defaultValue={''}/>
+              <input {...register('username')} defaultValue={''}/>
             </div>
             <div>
               <label>password</label>
-              <input name={'password'} defaultValue={''}/>
+              <input {...register('password')} defaultValue={''}/>
             </div>
             <button type={'submit'}>Login</button>
           </form>
@@ -71,4 +61,4 @@ const Login = ({
   );
 };
 
-export default authConnect(Login);
+export default Login;

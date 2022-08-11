@@ -1,27 +1,21 @@
 import 'src/App.css';
-import {
-  authConnect, AuthConnectProps, authSelector, subscribe
-} from 'src/redux/stores';
 import { LogoutButton } from 'src/components/molecules/logout_button';
-import { useState } from 'react';
-import { updateState } from 'src/utils/updateState';
+import { useAuth } from 'src/hooks/use_auth';
 
-function Home ({
-  getProfile
-}: AuthConnectProps) {
-  const [data, setData] = useState(authSelector);
+function Home () {
+  const {
+    data,
+    getProfile
+  } = useAuth();
+
   const handleProfile = () => {
     getProfile();
-    subscribe(() => {
-      setData(authSelector);
-      updateState(data);
-    });
   };
 
   return (
     <div>
       <div style={{ fontSize: '12px' }}>
-        Name: {data?.data?.name}
+        Name: {data?.user?.name}
         &nbsp;&nbsp;&nbsp;
         <LogoutButton/>
         <button onClick={handleProfile}>profile</button>
@@ -31,11 +25,11 @@ function Home ({
           <li><a href={'/users/create'}>Create</a></li>
         </ul>
         ----
-        <p>Id: {data?.data?.id}</p>
-        <p>Name: {data?.data?.name}</p>
-        <p>Email: {data?.data?.email}</p>
+        <p>Id: {data?.user?.id}</p>
+        <p>Name: {data?.user?.name}</p>
+        <p>Email: {data?.user?.email}</p>
       </div>
     </div>
   );
 }
-export default authConnect(Home);
+export default Home;

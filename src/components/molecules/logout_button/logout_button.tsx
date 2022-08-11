@@ -1,14 +1,5 @@
-import { authConnect, AuthConnectProps } from 'src/redux/stores';
-import { useNavigate } from 'react-router';
-export const LogoutButton = authConnect(({
-  data,
-  logout,
-  logoutGoogle
-}: AuthConnectProps) => {
-  const navigator = useNavigate();
-  const handleLogout = () => {
-    data?.type === 'google' ? logoutGoogle() : logout();
-    navigator('/login');
-  };
-  return <button onClick={handleLogout}>Logout</button>;
-});
+import { useAuth } from 'src/hooks/use_auth';
+export const LogoutButton = () => {
+  const { logout } = useAuth();
+  return <button onClick={logout}>Logout</button>;
+};

@@ -2,7 +2,7 @@ interface ListProps {
   data?: unknown[];
 }
 
-export const Table = ({ data }: ListProps) => {
+export const Table = ({ data = [{ data: '-' }] }: ListProps) => {
   const header = Object.keys(data[0]);
   const body = data.map(item => Object.values(item));
   if (!header || !body) return <div>x</div>;

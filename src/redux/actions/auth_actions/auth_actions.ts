@@ -2,7 +2,7 @@ import {
   GET_PROFILE,
   LOGIN,
   LOGIN_GOOGLE,
-  LOGOUT, LOGOUT_GOOGLE
+  LOGOUT
 } from 'src/redux/types/auth_action_types';
 import { storageService } from 'src/services';
 import { keyStoragesCredential } from 'src/services/storage_service/key_storages';
@@ -47,14 +47,6 @@ export const getProfile = (payload) => {
 export const logout = () => {
   return ({
     type: LOGOUT,
-    payload: {}
-  });
-};
-
-export const logoutGoogle = () => {
-  storageService.remove(keyStoragesCredential);
-  return ({
-    type: LOGOUT_GOOGLE,
     payload: {}
   });
 };

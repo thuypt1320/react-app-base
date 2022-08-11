@@ -1,6 +1,5 @@
+import { User } from 'types/user';
 export interface ICredential {
-  user: {
-    name: string,
-  },
-  access_token: string
+  user?: User,
+  access_token?: string
 }

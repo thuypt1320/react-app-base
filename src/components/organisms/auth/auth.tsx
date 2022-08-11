@@ -1,50 +1,20 @@
-import { cloneElement, FC, ReactNode, useEffect, useState } from 'react';
-import { storageService } from 'src/services';
-import { keyStoragesCredential } from 'src/services/storage_service/key_storages';
+import { ReactNode, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { ICredential } from 'types/credential';
-import {
-  allConnect,
-  AllConnectProps,
-  authSelector,
-  subscribe
-} from 'src/redux/stores';
-import { AuthState } from 'src/redux/reducers/auth_reducer';
-import { updateState } from 'src/utils/updateState';
+import { useAuth } from 'src/hooks/use_auth';
 
-interface AuthProviderProps extends AllConnectProps {
+interface AuthProviderProps {
   children: ReactNode;
 }
 
-export const Auth = allConnect(({
-  children,
-  data
-}: AuthProviderProps) => {
-  const credential = storageService.get(keyStoragesCredential) as ICredential;
+export const Auth = ({ children }: AuthProviderProps) => {
   const navigator = useNavigate();
-  const [profile, setProfile] = useState<AuthState>(data);
+  const { data } = useAuth();
 
   useEffect(() => {
-    subscribe(() => {
-      setProfile(authSelector);
-      updateState(profile);
-    });
+    if (!data?.access_token) navigator('/login');
   }, [data]);
 
-  useEffect(() => {
-    if (!credential) {
-      navigator('/login');
-    }
-  }, [profile]);
-
-  useEffect(() => {
-    if (profile.data && window.location.pathname === '/login') {
-      navigator('/');
-    }
-  }, [profile]);
-
   return <div>
-    {JSON.stringify(profile)}
     {children}
   </div>;
-});
+};
