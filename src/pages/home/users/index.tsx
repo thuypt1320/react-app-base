@@ -1,23 +1,25 @@
 import { useNavigate } from 'react-router';
-import { LogoutButton } from 'src/components/molecules/logout_button';
 import { useFetchUserList } from 'src/hooks/use_fetch_user_list';
 import { useFetchUserDetail } from 'src/hooks/use_fetch_user_detail';
+import { LayoutItem } from 'src/components/organisms/layout';
 
 function Users () {
   const {
     data,
-    getList,
     loading
   } = useFetchUserList();
   const { getDetail } = useFetchUserDetail();
   const navigator = useNavigate();
 
-  if (loading) return <div>loading </div>;
-  return (
-    <div>
-      <button onClick={getList}>fetch</button>
-      <LogoutButton/>
+  if (loading) {
+    return <LayoutItem type={'layout-main'} style={{
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}>loading </LayoutItem>;
+  }
 
+  return (
+    <LayoutItem type={'layout-main'}>
       <ul>
         {data?.map(
           (user, index) => (
@@ -33,7 +35,7 @@ function Users () {
           )
         )}
       </ul>
-    </div>
+    </LayoutItem>
   );
 }
 

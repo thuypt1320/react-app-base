@@ -5,6 +5,8 @@ import GoogleLogin from 'react-google-login';
 import { useForm } from 'react-hook-form';
 import { useAuth } from 'src/hooks/use_auth';
 import { useEffect } from 'react';
+import { Card } from 'src/components/atoms/card';
+import { LayoutItem } from 'src/components/organisms/layout';
 
 const Login = () => {
   const {
@@ -13,8 +15,7 @@ const Login = () => {
   } = useForm();
   const {
     data,
-    login,
-    loading
+    login
   } = useAuth();
   const navigator = useNavigate();
   useEffect(() => {
@@ -33,31 +34,38 @@ const Login = () => {
     console.log(error);
   };
 
-  if (loading) return <div>Loading</div>;
+  // if (loading) return <div>Loading</div>;
   return (
-    <div className="App">
-      <div className="App-header">
-        <div style={{ fontSize: '12px' }}>
-          <form onSubmit={handleSubmit(handleLogin)} name={'user'}>
-            <div>
-              <label>username</label>
-              <input {...register('username')} defaultValue={''}/>
-            </div>
-            <div>
-              <label>password</label>
-              <input {...register('password')} defaultValue={''}/>
-            </div>
-            <button type={'submit'}>Login</button>
-          </form>
-        </div>
-        <GoogleLogin
-          clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-          onSuccess={handleGoogleLoginSuccess}
-          onFailure={handleGoogleLoginFailure}
-          cookiePolicy={'single_host_origin'}
-        />
-      </div>
-    </div>
+    <LayoutItem
+      type={'layout-main'}
+      style={{
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+    >
+      <Card>
+        <form onSubmit={handleSubmit(handleLogin)} name={'user'}>
+          <div>
+            <label>username</label>
+            <input {...register('username')} defaultValue={''}/>
+          </div>
+          <div>
+            <label>password</label>
+            <input {...register('password')} defaultValue={''}/>
+          </div>
+          <div>
+            <button type={'submit'} style={{ display: 'block' }}>Login
+            </button>
+            <GoogleLogin
+              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+              onSuccess={handleGoogleLoginSuccess}
+              onFailure={handleGoogleLoginFailure}
+              cookiePolicy={'single_host_origin'}
+            />
+          </div>
+        </form>
+      </Card>
+    </LayoutItem>
   );
 };
 

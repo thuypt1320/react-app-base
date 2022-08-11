@@ -1,9 +1,9 @@
-import { LogoutButton } from 'src/components/molecules/logout_button';
 import { useForm } from 'react-hook-form';
 import { useFetchUserDetail } from 'src/hooks/use_fetch_user_detail';
 import { useMutateUser } from 'src/hooks/use_mutate_user';
 import { useParams } from 'react-router';
 import { useEffect } from 'react';
+import { LayoutItem } from 'src/components/organisms/layout';
 
 function User () {
   const { id } = useParams();
@@ -31,11 +31,15 @@ function User () {
     });
   };
 
-  if (loading) return <div>loading </div>;
+  if (loading) {
+    return <LayoutItem type={'layout-main'} style={{
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}>loading </LayoutItem>;
+  }
 
   return (
-    <div>
-      <LogoutButton/>
+    <LayoutItem type={'layout-main'}>
       <form onSubmit={handleSubmit(handleUpdate)} name={'update'}>
         <div>
           <label>Id: {data?.id}</label>
@@ -50,12 +54,7 @@ function User () {
         </div>
         <button type={'submit'}>ud</button>
       </form>
-
-      ----
-      <p>Id: {data?.id}</p>
-      <p>Name: {data?.name}</p>
-      <p>Email: {data?.email}</p>
-    </div>
+    </LayoutItem>
   );
 }
 

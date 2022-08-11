@@ -6,33 +6,31 @@ import { useRoutes } from 'react-router';
 import Users from 'src/pages/home/users';
 import User from 'src/pages/home/users/detail';
 import UserForm from 'src/pages/home/users/create';
+import { Auth } from 'src/components/organisms/auth';
 
 function App () {
-  const element = useRoutes([
+  return useRoutes([
     {
       path: '/login',
       element: <Login/>
     },
     {
       path: '/',
-      element: <Home/>
+      element: <Auth><Home/></Auth>
     },
     {
       path: '/users',
-      element: <Users/>
+      element: <Auth><Users/></Auth>
     },
     {
       path: '/users/:id',
-      element: <User/>
+      element: <Auth><User/></Auth>
     },
     {
       path: '/users/create',
-      element: <UserForm/>
+      element: <Auth><UserForm/></Auth>
     }
   ]);
-
-  // return <Home/>;
-  return element;
 }
 
 export default App;

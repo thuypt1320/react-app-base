@@ -6,7 +6,6 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { stores } from 'src/redux-toolkit/stores';
 import { Provider } from 'react-redux';
-import { Auth } from 'src/components/organisms/auth';
 
 // msw
 // worker.start().then(() => {
@@ -15,9 +14,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={stores}>
-        <Auth>
-          <App/>
-        </Auth>
+        <App/>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>

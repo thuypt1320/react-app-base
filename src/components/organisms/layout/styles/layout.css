@@ -1,0 +1,54 @@
+.layout {
+  display: grid;
+  grid-template:
+  "header header"
+  "main note"
+  "footer note";
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr auto;
+  width: 100%;
+  height: 100vh;
+  background-color: aliceblue;
+}
+
+.layout-note {
+  grid-area: note;
+  border-left: 1px solid gainsboro;
+  padding: 20px;
+  background-color: white;
+}
+
+.layout-header {
+  grid-area: header;
+  grid-template:
+  "left"
+  "right";
+  grid-template-columns: 1fr auto;
+  border-bottom: 1px solid gainsboro;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: white;
+}
+
+.layout-main {
+  grid-area: main;
+  margin: 20px 100px;
+  display: flex;
+  position: relative;
+  background-color: white;
+}
+
+.layout-main::before {
+}
+
+.layout-footer {
+  grid-area: footer;
+  border-top: 1px solid gainsboro;
+  background-color: white;
+}
+
+.layout-header-left {
+  grid-area: left;
+  display: flex;
+}

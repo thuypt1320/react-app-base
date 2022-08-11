@@ -1,8 +1,6 @@
-import { LogoutButton } from 'src/components/molecules/logout_button';
-import { Table } from 'src/components/atoms/table';
 import { useForm } from 'react-hook-form';
 import { useMutateUser } from 'src/hooks/use_mutate_user';
-import { useFetchUserList } from 'src/hooks/use_fetch_user_list';
+import { LayoutItem } from 'src/components/organisms/layout';
 
 function UserForm () {
   const {
@@ -10,16 +8,15 @@ function UserForm () {
     handleSubmit
   } = useForm();
 
-  const { create } = useMutateUser();
-  const { data } = useFetchUserList();
+  const {
+    create
+  } = useMutateUser();
 
   function handleUpdate (formValue) {
     create(formValue);
   }
 
-  return <div>
-    <LogoutButton/>
-
+  return <LayoutItem type={'layout-main'}>
     <form onSubmit={handleSubmit(handleUpdate)} name={'user'}>
       <div>
         <label>name</label>
@@ -31,8 +28,7 @@ function UserForm () {
       </div>
       <button type={'submit'}>sm</button>
     </form>
-    <Table data={data}/>
-  </div>;
+  </LayoutItem>;
 }
 
 export default UserForm;
