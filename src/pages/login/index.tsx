@@ -1,12 +1,9 @@
-/* eslint-disable react/prop-types */
-import 'src/App.css';
 import { useNavigate } from 'react-router';
 import GoogleLogin from 'react-google-login';
 import { useForm } from 'react-hook-form';
 import { useAuth } from 'src/hooks/use_auth';
 import { useEffect } from 'react';
-import { Card } from 'src/components/atoms/card';
-import { LayoutItem } from 'src/components/organisms/layout';
+import { Layout, LayoutItem } from 'src/components/organisms/layout';
 
 const Login = () => {
   const {
@@ -34,27 +31,29 @@ const Login = () => {
     console.log(error);
   };
 
-  // if (loading) return <div>Loading</div>;
   return (
-    <LayoutItem
-      type={'layout-main'}
-      style={{
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}
-    >
-      <Card>
+    <Layout>
+      <LayoutItem
+        type={'layout-main'}
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
         <form onSubmit={handleSubmit(handleLogin)} name={'user'}>
-          <div>
-            <label>username</label>
-            <input {...register('username')} defaultValue={''}/>
+          <div style={{ marginBottom: '10px' }}>
+            <p>User name:</p>
+            <input {...register('username')} />
+          </div>
+          <div style={{ marginBottom: '10px' }}>
+            <p>Password:</p>
+            <input {...register('password')} type={'password'}/>
           </div>
           <div>
-            <label>password</label>
-            <input {...register('password')} defaultValue={''}/>
-          </div>
-          <div>
-            <button type={'submit'} style={{ display: 'block' }}>Login
+            <button type={'submit'} style={{
+              display: 'block',
+              marginBottom: '10px'
+            }}>Login
             </button>
             <GoogleLogin
               clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
@@ -64,8 +63,8 @@ const Login = () => {
             />
           </div>
         </form>
-      </Card>
-    </LayoutItem>
+      </LayoutItem>
+    </Layout>
   );
 };
 

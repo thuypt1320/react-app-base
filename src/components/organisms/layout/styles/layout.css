@@ -16,6 +16,7 @@
   border-left: 1px solid gainsboro;
   padding: 20px;
   background-color: white;
+  width: 300px;
 }
 
 .layout-header {
@@ -39,9 +40,6 @@
   background-color: white;
 }
 
-.layout-main::before {
-}
-
 .layout-footer {
   grid-area: footer;
   border-top: 1px solid gainsboro;
@@ -51,4 +49,11 @@
 .layout-header-left {
   grid-area: left;
   display: flex;
+}
+
+.layout-header-right {
+  grid-area: left;
+  display: inline;
+  width: 100%;
+  text-align: end;
 }

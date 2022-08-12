@@ -21,6 +21,7 @@ export class UserRepository {
     name: string,
     email: string
   }) {
+    console.log({ _params });
     return this.axiosWithToken.put(`/users/${_params.id}`,
       {
         name: _params.name,
@@ -37,5 +38,11 @@ export class UserRepository {
         name: _params.name,
         email: _params.email
       });
+  }
+
+  async remove (_params: {
+    id: string
+  }) {
+    return this.axiosWithToken.delete(`/users/${_params.id}`);
   }
 }

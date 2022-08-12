@@ -5,11 +5,6 @@ export const Header = () => {
   const { data } = useAuth();
   return (
     <LayoutItem type={'layout-header'}>
-      <LayoutItem type={'layout-header-left'}>
-        <a href={'/users'}>Users</a>
-        <p style={{ paddingRight: '10px' }}/>
-        <a href={'/users/create'}>Create</a>
-      </LayoutItem>
       <LayoutItem type={'layout-header-right'}>
         Name: {data?.user?.name}
         &nbsp;&nbsp;&nbsp;

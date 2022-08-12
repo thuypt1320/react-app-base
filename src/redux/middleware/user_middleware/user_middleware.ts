@@ -1,13 +1,13 @@
 import { userRepository } from 'src/repositories';
 import {
-  CREATE,
+  CREATE, DELETE,
   GET_DETAIL,
   GET_LIST, UPDATE
 } from 'src/redux/types/user_action_types/user_action_types';
 import {
   create,
   getDetail,
-  getList,
+  getList, remove,
   update
 } from 'src/redux/actions/user_actions';
 import { DONE, ERROR, PROCESSING } from 'src/redux/types';
@@ -52,7 +52,6 @@ export const userMW = store => next => async action => {
       if (res.data) next({ type: DONE });
       return next(
         create({
-          loading: Boolean(!res.data),
           user: res.data
         })
       );
@@ -68,9 +67,21 @@ export const userMW = store => next => async action => {
       if (res.data) next({ type: DONE });
       return next(
         update({
-          loading: Boolean(!res.data),
           user: res.data
         })
+      );
+    } catch (e) {
+      next({ type: ERROR });
+    }
+  }
+
+  if (action.type === DELETE) {
+    try {
+      const res = await userRepository.remove(action?.payload);
+      if (!res.data) next({ type: PROCESSING });
+      if (res.data) next({ type: DONE });
+      return next(
+        remove({ user: res.data })
       );
     } catch (e) {
       next({ type: ERROR });

@@ -1,14 +1,19 @@
 interface ListProps {
   data?: unknown[];
+  onClickRow?: (value: unknown) => void;
 }
 
-export const Table = ({ data = [{ data: '-' }] }: ListProps) => {
+export const Table = ({
+  data = [{ data: '-' }],
+  onClickRow
+}: ListProps) => {
   const header = Object.keys(data[0]);
   const body = data.map(item => Object.values(item));
   if (!header || !body) return <div>x</div>;
   return (
     <table>
-      <header
+      <thead>
+      <tr
         style={{
           width: '100%',
           display: 'grid',
@@ -19,8 +24,9 @@ export const Table = ({ data = [{ data: '-' }] }: ListProps) => {
         {header.map((item, index) =>
           <th key={index} style={{}}>{item}</th>
         )}
-      </header>
-      <body
+      </tr>
+      </thead>
+      <tbody
         style={{
           display: 'grid',
           height: '100%',
@@ -35,8 +41,10 @@ export const Table = ({ data = [{ data: '-' }] }: ListProps) => {
             height: '100%',
             display: 'grid',
             gridTemplateColumns: `repeat(${header.length}, 1fr)`,
-            border: '1px solid black'
+            border: '1px solid black',
+            cursor: 'pointer'
           }}
+          onClick={() => onClickRow(data[index])}
         >
           {item.map((data, idx) =>
             <td
@@ -49,7 +57,7 @@ export const Table = ({ data = [{ data: '-' }] }: ListProps) => {
               {data}
             </td>)}
         </tr>))}
-      </body>
+      </tbody>
     </table>
   );
 };

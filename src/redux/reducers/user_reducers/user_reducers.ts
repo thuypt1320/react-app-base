@@ -1,6 +1,6 @@
 import { User } from 'src/types';
 import {
-  CREATE,
+  CREATE, DELETE,
   GET_DETAIL,
   GET_LIST, UPDATE
 } from 'src/redux/types/user_action_types/user_action_types';
@@ -37,9 +37,19 @@ export const userReducer = (state: IUserState = {}, action: IUserAction) => {
       };
     }
     case UPDATE: {
+      const data = state?.data?.map(item => item?.id === action.payload.user?.id ? ({ ...item, ...action.payload.user }) : item);
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
+        data
+      };
+    }
+    case DELETE: {
+      const data = state?.data?.filter(item => item?.id !== action.payload.user?.id);
+      return {
+        ...state,
+        data,
+        user: {}
       };
     }
     default:
