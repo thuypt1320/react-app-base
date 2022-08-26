@@ -11,3 +11,74 @@ tr {
 td {
   border: 1px solid royalblue;
 }
+
+@keyframes pulse {
+  from {
+    height: 30vh;
+    width: 30vh;
+  }
+
+  25% {
+    background-color: #FCB100;
+    border: 14vh solid #495057;
+    box-shadow: 0 0 0 10vh #FCB100;
+    height: 70vh;
+    width: 70vh;
+  }
+
+  50% {
+    height: 30vh;
+    width: 30vh;
+  }
+
+  75% {
+    background-color: #F96700;
+    border: 4vh solid #495057;
+    box-shadow: 0 0 0 0.25vh #F96700;
+    height: 60vh;
+    width: 60vh;
+  }
+}
+
+body {
+  background-color: #495057;
+  width: 50px;
+  height: 50px;
+}
+
+.thingamabob {
+  /* Horizintally and vertically centers */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /* Resting size is fully styled, but without size animated */
+  background-color: #DB4700;
+  border-radius: 70vh;
+  height: 10%;
+  border: 0.25vh solid #495057;
+  box-shadow: 0 0 0 0.25vh #DB4700;
+  width: 10%;
+
+  /* Animation Settings */
+  animation-duration: 1.75s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-name: pulse;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thingamabob {
+    /* Stop the animation */
+    animation: none;
+
+    /* Provide alternate styling */
+    background-color: #47ACFA;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    height: 30%;
+    width: 30%;
+  }
+}
