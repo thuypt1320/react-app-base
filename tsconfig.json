@@ -4,6 +4,7 @@
     "jsx": "react-jsx",
     "allowJs": true,
     "baseUrl": "./",
+    "moduleResolution": "node",
     "paths": {
       "src/*": ["src/*"],
       "types/*": ["src/types/*"]

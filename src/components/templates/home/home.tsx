@@ -4,6 +4,7 @@ import { User } from 'src/types';
 import { Table } from 'src/components/atoms/table';
 import { useFetchUserDetail } from 'src/hooks/use_fetch_user_detail';
 import { UserUpdate } from 'src/components/templates/home/components/user_update';
+import { DownloadButton } from 'src/components/molecules/download_button';
 
 export const Home = () => {
   const { data } = useFetchUserList();
@@ -24,6 +25,7 @@ export const Home = () => {
             getDetail(value.id);
           }}
         />
+        <DownloadButton data={data}/>
       </LayoutItem>
       <UserUpdate user={user}/>
     </>
