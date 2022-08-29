@@ -1,8 +1,8 @@
 import { LayoutItem } from 'src/components/organisms/layout';
-import { useFetchUserList } from 'src/hooks/use_fetch_user_list';
+import { useFetchUserList } from 'src/redux/hooks/user/use_fetch_user_list';
 import { User } from 'src/types';
 import { Table } from 'src/components/atoms/table';
-import { useFetchUserDetail } from 'src/hooks/use_fetch_user_detail';
+import { useFetchUserDetail } from 'src/redux/hooks/user/use_fetch_user_detail';
 import { UserUpdate } from 'src/components/templates/home/components/user_update';
 import { DownloadButton } from 'src/components/molecules/download_button';
 

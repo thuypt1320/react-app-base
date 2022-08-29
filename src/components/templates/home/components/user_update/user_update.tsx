@@ -1,7 +1,7 @@
 import { LayoutItem } from 'src/components/organisms/layout';
 import { User } from 'src/types';
 import { FC, useEffect, useState } from 'react';
-import { useMutateUser } from 'src/hooks/use_mutate_user';
+import { useMutateUser } from 'src/redux/hooks/user/use_mutate_user';
 import { useForm } from 'react-hook-form';
 
 interface UserUpdateProps {

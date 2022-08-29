@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" id="download-page">
+<html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
@@ -9,27 +10,25 @@
   <title>Download</title>
 </head>
 <body>
-<!--<table id="download-table"></table>-->
-<div role="presentation"
-     class="thingamabob"></div>
+<table id="download-table"></table>
 </body>
 <script>
-  // const table = window.document.getElementById('download-table');
+  const table = window.document.getElementById('download-table');
 
-  // data.map((item, index) => {
-  //   const row = window.document.createElement(`tr`);
-  //   row.setAttribute('id', `row-${index}`);
-  //   row.setAttribute('style', `grid-template-columns: repeat(${Object.values(item).length}, 1fr)`);
-  //   Object.values(item).map(
-  //     (value, idx) => {
-  //       const td = window.document.createElement('td');
-  //       td.setAttribute('id', `data-${idx}`);
-  //       td.innerText = value;
-  //       row.append(td);
-  //     }
-  //   );
-  //   table.append(row);
-  // });
+  data.map((item, index) => {
+    const row = window.document.createElement(`tr`);
+    row.setAttribute('id', `row-${index}`);
+    row.setAttribute('style', `grid-template-columns: repeat(${Object.values(item).length}, 1fr)`);
+    Object.values(item).map(
+      (value, idx) => {
+        const td = window.document.createElement('td');
+        td.setAttribute('id', `data-${idx}`);
+        td.innerText = value;
+        row.append(td);
+      }
+    );
+    table.append(row);
+  });
 
 
 </script>

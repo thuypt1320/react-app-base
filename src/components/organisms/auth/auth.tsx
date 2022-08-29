@@ -1,6 +1,6 @@
 import { ReactNode, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { useAuth } from 'src/hooks/use_auth';
+import { useAuth } from 'src/redux/hooks/auth/use_auth';
 import { Layout } from 'src/components/organisms/layout';
 import { Header } from 'src/components/organisms/header';
 

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router';
 import GoogleLogin from 'react-google-login';
 import { useForm } from 'react-hook-form';
-import { useAuth } from 'src/hooks/use_auth';
+import { useAuth } from 'src/redux/hooks/auth/use_auth';
 import { useEffect } from 'react';
 import { Layout, LayoutItem } from 'src/components/organisms/layout';
 
