@@ -1,0 +1,7 @@
+:defined {
+  color: burlywood;
+}
+
+custom-element:defined {
+  font-size: larger;
+}
