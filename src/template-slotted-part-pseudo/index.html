@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--  <script src="./script.js" defer></script>-->
+  <script src="./counter.js" defer></script>
+  <title>Template ::slotted pseudo</title>
+  <style>
+    template-slot::part(part1) {
+      color: yellow
+    }
+  </style>
+</head>
+<body>
+<!--<template id="template">-->
+<!--  <style>-->
+<!--    div {-->
+<!--      border: 1px solid black;-->
+<!--      width: fit-content;-->
+<!--      padding: 3px;-->
+<!--      margin: 1px;-->
+<!--    }-->
+
+<!--    p {-->
+<!--      color: blue-->
+<!--    }-->
+
+<!--    ::slotted(span[slot="slot1"]) {-->
+<!--      color: red-->
+<!--    }-->
+
+<!--  </style>-->
+<!--  <div>-->
+<!--    <p>template-->
+<!--      <slot name="slot1">SLOT 1</slot>-->
+<!--    </p>-->
+<!--    &lt;!&ndash;    <p part="part1">&ndash;&gt;-->
+<!--    &lt;!&ndash;      <slot name="slot2">SLOT 2</slot>&ndash;&gt;-->
+<!--    &lt;!&ndash;    </p>&ndash;&gt;-->
+<!--  </div>-->
+<!--</template>-->
+<!--<template-slot>-->
+<!--  <span slot="slot1">1</span>-->
+<!--  &lt;!&ndash;  <span slot="slot2">2</span>&ndash;&gt;-->
+<!--</template-slot>-->
+<!--<template-slot>-->
+<!--  <span slot="slot1">2</span>-->
+<!--</template-slot>-->
+
+<custom_count></custom_count>
+</body>
+</html>
